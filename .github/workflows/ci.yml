@@ -46,4 +46,4 @@ jobs:
           build_number: ${{ env.run_number }}
         run: |
           dotnet pack -c Release /p:PackageVersion=1.0.0.${{ env.build_number }}
-          dotnet nuget push "bin/Release/*.nupkg" --source "github"
+          dotnet nuget push "bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/seongjihye1994/index.json"
