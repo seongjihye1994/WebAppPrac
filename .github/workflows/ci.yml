@@ -16,4 +16,4 @@ jobs:
     - name: Restore Dependencies
       run: dotnet restore
     - name: Build Project
-      run: dotnet build --configuration Release --output /path/to/output/directory
+      run: dotnet build --configuration Release
