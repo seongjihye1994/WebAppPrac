@@ -12,6 +12,7 @@ env:
   build_number: 1
   username: seongjihye1994
   password: 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
+  api_key: hello
 
 jobs:
   build-and-publish:
@@ -46,4 +47,4 @@ jobs:
           build_number: ${{ env.run_number }}
         run: |
           dotnet pack -c Release /p:PackageVersion=1.0.0.${{ env.build_number }}
-          dotnet nuget push "bin/Release/*.nupkg" --source "https://nuget.pkg.github.com/seongjihye1994/index.json"
+          dotnet nuget push "bin/Release/*.nupkg" --api-key ${{ env.api_key }} --source "https://nuget.pkg.github.com/seongjihye1994/index.json"
