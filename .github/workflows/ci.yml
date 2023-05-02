@@ -18,7 +18,7 @@ jobs:
     - name: Build Project
       run: dotnet build --configuration Release
     - name: Publish Package
-      run: dotnet pack --configuration Release --include-symbols -p:PackageVersion=1.0.$(Build.BuildId)
+      run: dotnet pack --configuration Release --include-symbols -p
     - name: Set up NuGet
       run: |
         echo "machine api.nuget.org" >> ~/.netrc
