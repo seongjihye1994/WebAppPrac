@@ -1,21 +1,51 @@
-name: Build and Deploy ASP.NET Package
+name: ASP.NET Build and Publish to GitHub Package Registry
+
 on:
   push:
     branches:
       - main
+
+env:
+  PACKAGE_NAME: <your_package_name> # 패키지 이름
+  DOTNET_CLI_TELEMETRY_OPTOUT: true # .NET CLI 텔레메트리 비활성화
+
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
+    
+    env:
+      run_number: 1
+      build_number: 1
+      username: seongjihye1994
+      password: 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
+
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0.100-preview.7.21379.14'
-    - name: Restore Dependencies
-      run: dotnet restore
-    - name: Build Project
-      run: dotnet build --configuration Release
-    - name: Publish Package
-      run: dotnet pack --configuration Release --include-symbols
+      # 소스 코드 가져오기
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # .NET Core SDK 설치
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+
+      # 애플리케이션 빌드
+      - name: Build
+        run: dotnet build --configuration Release
+
+      # GitHub Package Registry 로그인
+      - name: Login to GitHub Package Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ env.username }}
+          password: ${{ env.password }}
+
+      # 패키지 빌드 및 배포
+      - name: Build and Publish Package
+        env:
+          BUILD_NUMBER: ${{ env.run_number }}
+        run: |
+          dotnet pack -c Release /p:PackageVersion=1.0.0.${{ env.build_number }}
+          dotnet nuget push "bin/Release/*.nupkg" --source "github"
