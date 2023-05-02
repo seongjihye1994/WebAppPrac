@@ -47,4 +47,3 @@ jobs:
           build_number: ${{ env.run_number }}
         run: |
           dotnet pack -c Release /p:PackageVersion=1.0.0.${{ env.build_number }}
-          dotnet nuget push "bin/Release/net6.0/*.dll" -k ${{ env.api_key }}
