@@ -11,7 +11,7 @@ env:
   run_number: 1
   build_number: 1
   username: seongjihye1994
-  password: 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
+  password: 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
 
 jobs:
   build-and-publish:
