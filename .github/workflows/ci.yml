@@ -1,29 +1,19 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
-
+name: Build and Deploy ASP.NET Application
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - main
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore --output \C:\Users\PC\source\repos\WebAppPrac\output
-    - name: Build
-      run: dotnet build --output \C:\Users\PC\source\repos\WebAppPrac\output
-    - name: Test
-      run: dotnet test --output \C:\Users\PC\source\repos\WebAppPrac\output
+        dotnet-version: '6.0.100-preview.7.21379.14'
+    - name: Restore Dependencies
+      run: dotnet restore
+    - name: Build Project
+      run: dotnet build --configuration Release --output /path/to/output/directory
