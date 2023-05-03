@@ -31,3 +31,6 @@ jobs:
 
       - name: Packaging
         run: dotnet pack --configuration Release
+
+      - name: Publish
+        run: dotnet nuget push ..\WebAppPrac\WebAppPrac\bin\Release\WebAppPrac.1.0.0.nupkg --source https://nuget.pkg.github.com/seongjihye1994/index.json
