@@ -1,21 +1,36 @@
-name: Build and Deploy ASP.NET Package
+name: Publish to GitHub Packages
+
 on:
   push:
     branches:
       - main
+
+env:
+  PROJECT_NAME: WebAppPrac
+  PACKAGE_NAME: WebAppPrac
+  DOTNET_VERSION: 6.0.x
+
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0.100-preview.7.21379.14'
-    - name: Restore Dependencies
-      run: dotnet restore
-    - name: Build Project
-      run: dotnet build --configuration Release
-    - name: Publish Package
-      run: dotnet pack --configuration Release --include-symbols
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Packaging
+        run: dotnet pack --configuration Release
+        
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push ".\bin\Release\WebAppPrac.1.0.0.nupkg" --source "https://nuget.pkg.github.com/seongjihye1994/index.json"
