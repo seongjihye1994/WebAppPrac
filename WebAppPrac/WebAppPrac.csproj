@@ -2,8 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<PackageId>WebAppPrac</PackageId>
+	<Version>1.0.0</Version>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<Authors>seongjihye1994</Authors>
+	<RepositoryUrl>https://github.com/seongjihye1994/WebAppPrac</RepositoryUrl>
 	<IsPackable>true</IsPackable>
   </PropertyGroup>
 
