@@ -46,4 +46,4 @@ jobs:
         run: |
           aws s3 cp \
             --recursive \
-            /bin/Release/net6.0/ s3://vms-s3-devops
+            /home/runner/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops
