@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to AWS S3
 
 on:
   push:
@@ -7,40 +7,63 @@ on:
 
 env:
   PROJECT_NAME: WebAppPrac
-  PACKAGE_NAME: WebAppPrac
   DOTNET_VERSION: 6.0.x
 
 jobs:
-  build-and-publish:
-    runs-on: ubuntu-latest
+  linux_build:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        run: dotnet restore
+        - name: Restore dependencies
+          run: dotnet restore
 
-      - name: Build
-        run: dotnet build --configuration Release
+        - name: Build
+          run: dotnet build --configuration Release
 
-      - name: pwd
-        run: pwd
-        
-      - name: dir
-        run: dir
-     
-      - name: Deploy 
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ap-northeast-2
-        run: |
-          aws s3 cp \
-            --recursive \
-            /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet
+        - name: Deploy 
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ap-northeast-2
+          run: |
+            aws s3 cp \
+              --recursive \
+              /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet/linux
+              
+  window_build:
+      runs-on: window-latest
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+
+        - name: Restore dependencies
+          run: dotnet restore
+
+        - name: Build
+          run: dotnet build --configuration Release
+
+        - name: Deploy 
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: ap-northeast-2
+          run: |
+            aws s3 cp \
+              --recursive \
+              /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet/window
+            
+  
