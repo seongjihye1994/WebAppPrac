@@ -32,9 +32,9 @@ jobs:
       - name: Packaging
         run: dotnet pack --configuration Release
 
-      - name: Publish
-        run: aws s3 cp \
-            --recursive \
-            --region ap-northeast-2 \
-            dist s3://WebAppPrac
-
+      - name: Deploy 
+        env:
+          AWS_ACCESS_KEY_ID: AKIASM7BDLYCWCMRCLPK
+          AWS_SECRET_ACCESS_KEY: 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
+        run: |
+          aws s3 sync ./build s3://vms-s3-devops
