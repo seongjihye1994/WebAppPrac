@@ -35,5 +35,5 @@ jobs:
             AWS_DEFAULT_REGION: ap-northeast-2
           run: \
             aws s3 cp \
-              '--recursive' \
+              --recursive \
               /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet/window
