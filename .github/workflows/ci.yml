@@ -32,6 +32,9 @@ jobs:
       - name: Packaging
         run: dotnet pack --configuration Release
 
+      - name: pwd
+        run: pwd
+        
       - name: Deploy 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
