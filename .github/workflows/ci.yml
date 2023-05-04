@@ -40,7 +40,7 @@ jobs:
               
   window_build:
       needs: linux_build
-      runs-on: window-latest
+      runs-on: windows-latest
 
       steps:
         - name: Checkout code
