@@ -37,9 +37,6 @@ jobs:
         
       - name: dir
         run: dir
-        
-      - name: dir
-        run: dir /home/runner/work/WebAppPrac/WebAppPrac/client/build
      
       - name: Deploy 
         env:
@@ -49,4 +46,4 @@ jobs:
         run: |
           aws s3 cp \
             --recursive \
-            /home/runner/work/WebAppPrac/WebAppPrac/client/build s3://vms-s3-devops
+            /home/runner/work/WebAppPrac/WebAppPrac s3://vms-s3-devops
