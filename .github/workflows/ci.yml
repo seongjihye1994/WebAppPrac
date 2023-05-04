@@ -35,6 +35,9 @@ jobs:
       - name: pwd
         run: pwd
         
+      - name: ll
+        run: ll
+        
       - name: Deploy 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
