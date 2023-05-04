@@ -40,7 +40,6 @@ jobs:
        
 
   window_build:
-      needs: linux_build
       runs-on: windows-latest
 
       steps:
