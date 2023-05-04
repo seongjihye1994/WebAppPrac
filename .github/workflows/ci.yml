@@ -34,8 +34,8 @@ jobs:
 
       - name: Deploy 
         env:
-          AWS_ACCESS_KEY_ID: AKIASM7BDLYCWCMRCLPK
-          AWS_SECRET_ACCESS_KEY: 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
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-northeast-2
         run: |
-          aws s3 sync ./build s3://vms-s3-devops
+          aws s3 sync /build s3://vms-s3-devops
