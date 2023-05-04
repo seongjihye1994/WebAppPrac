@@ -38,4 +38,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ap-northeast-2
         run: |
-          aws s3 sync /build s3://vms-s3-devops
+          aws s3 cp \
+            --recursive \
+            /bin/Release/net6.0/ s3://vms-s3-devops
