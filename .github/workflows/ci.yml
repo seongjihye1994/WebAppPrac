@@ -76,11 +76,14 @@ jobs:
     
     runs-on: ubuntu-latest
     
+    strategy:
+      matrix:
+        repo: ['seongjihye1994/vue-githubactions']
     steps:
-      - name: Send Dispatch Event
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
-          repository: seongjihye1994/vue-githubactions
-          event-type: "demo_event"
+      - name: Dispatch to workflows
+        run: |
+            curl -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.PAT }}" \
+            --request POST \
+            --data '{"event_type": "demo_event" https://api.github.com/repos/${{ matrix.repo }}/dispatches
 
