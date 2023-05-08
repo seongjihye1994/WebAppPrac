@@ -1,8 +1,14 @@
 name: Publish to AWS S3
 
 on:
-  repository_dispatch:
-    types: [ demo_event ]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
 
 env:
   PROJECT_NAME: WebAppPrac
@@ -39,6 +45,7 @@ jobs:
        
 
   window_build:
+      needs: linux_build
       runs-on: windows-latest
 
       steps:
@@ -65,4 +72,12 @@ jobs:
             aws s3 cp 
               --recursive 
               D:\a\WebAppPrac\WebAppPrac\WebAppPrac\bin\Release\net6.0\ s3://vms-s3-devops/dotnet/window
+
+  trigger:
+    needs: window_build
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh api https://github.com/seongjihye1994/vue-githubactions.git -f event_type='demo_event'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
