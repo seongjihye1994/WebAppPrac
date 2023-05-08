@@ -77,7 +77,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - run: gh api /seongjihye1994/vue-githubaction/dispatches -f event_type='demo_event'
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Send Trigger
+        run: |
+          curl -X POST https://api.github.com/repos/:seongjihye1994/:vue-githubactions/dispatches \
+          -H 'Accept: application/vnd.github.v3+json' \
+          -u ${{ secrets.PAT }} \
+          -d '{ "event_type": "demo_event" }'
 
