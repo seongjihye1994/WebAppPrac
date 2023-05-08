@@ -71,13 +71,16 @@ jobs:
               --recursive 
               D:\a\WebAppPrac\WebAppPrac\WebAppPrac\bin\Release\net6.0\ s3://vms-s3-devops/dotnet/window
 
-  trigger:
+  trigger:  
     needs: linux_build
     
     runs-on: ubuntu-latest
     
     steps:
-      - run: gh api https://github.com/seongjihye1994/vue-githubactions/dispatches -f event_type='demo_event'
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Send Dispatch Event
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: https://github.com/seongjihye1994/vue-githubactions
+          event-type: demo_event
 
