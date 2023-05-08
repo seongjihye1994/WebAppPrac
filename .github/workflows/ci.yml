@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - run: gh api /seongjihye1994/vue-githubaction -f event_type='demo_event'
+      - run: gh api /seongjihye1994/vue-githubaction/dispatches -f event_type='demo_event'
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
