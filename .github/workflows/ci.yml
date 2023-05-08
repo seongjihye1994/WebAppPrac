@@ -85,5 +85,5 @@ jobs:
             curl -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.PAT }}" \
             --request POST \
-            --data '{"event_type": "demo_event", https://api.github.com/repos/${{ matrix.repo }}/dispatches
+            --data '{"event_type": "demo_event"}', https://api.github.com/repos/${{ matrix.repo }}/dispatches
 
