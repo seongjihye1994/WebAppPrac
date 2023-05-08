@@ -82,5 +82,5 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           repository: seongjihye1994/vue-githubactions
-          event-type: demo_event
+          event_type: demo_event
 
