@@ -37,7 +37,7 @@ jobs:
         - name: Build
           run: dotnet build --configuration Release
           
-        - name: configure aws credentials
+        - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
             role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
