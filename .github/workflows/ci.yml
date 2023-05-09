@@ -37,7 +37,7 @@ jobs:
           uses: aws-actions/configure-aws-credentials@v1
           with:
             role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
-            role-session-name: user-role
+            role-session-name: GithubActions
             aws-region: ${{ env.AWS_REGION }}
 
         - name: Deploy 
@@ -69,7 +69,7 @@ jobs:
           uses: aws-actions/configure-aws-credentials@v1
           with:
             role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
-            role-session-name: user-role
+            role-session-name: GithubActions
             aws-region: ${{ env.AWS_REGION }}
           
         - name: Deploy 
