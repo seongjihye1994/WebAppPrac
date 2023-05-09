@@ -12,6 +12,9 @@ env:
   PROJECT_NAME: WebAppPrac
   DOTNET_VERSION: 6.0.x
   AWS_REGION: ap-northeast-2
+  LINUX_BUILD_BRANCH: dev
+  WINDOW_BUILD_BRANCH: dev
+  NODE_BUILD_BRANCH: dev
   
 permissions:
       id-token: write
@@ -25,6 +28,9 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
+          with:
+            repository: actions/checkout
+            ref: ${{ env.LINUX_BUILD_BRANCH }}
 
         - name: Setup .NET
           uses: actions/setup-dotnet@v1
@@ -57,6 +63,9 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
+          with:
+            repository: actions/checkout
+            ref: ${{ env.WINDOW_BUILD_BRANCH }}
 
         - name: Setup .NET
           uses: actions/setup-dotnet@v1
@@ -93,5 +102,5 @@ jobs:
           curl -X POST https://api.github.com/repos/seongjihye1994/vue-githubactions/dispatches \
           -H 'Accept: application/vnd.github.v3+json' \
           -u ${{ secrets.PAT }} \
-          -d '{ "event_type": "demo_event" }'
+          -d '{ "event_type": "demo_event", "client_payload": "${{ env.NODE_BUILD_BRANCH }}" }'
 
