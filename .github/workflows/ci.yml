@@ -26,6 +26,9 @@ jobs:
           with:
             repository: seongjihye1994/WebAppPrac
             ref: ${{ env.LINUX_BUILD_BRANCH }}
+            
+        - name: echo
+          run: echo ${{ github.ref_name }}
 
         - name: Setup .NET
           uses: actions/setup-dotnet@v1
