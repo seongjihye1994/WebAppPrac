@@ -30,10 +30,11 @@ jobs:
 
           
         - name: make env
+          id: make_env
           run: echo "PROTO_PATH=$(which protoc)" >> $GITHUB_OUTPUT
           
         - name: Create Symbolic
-          run: sudo ln -s ${{ steps.pnpm-cache.outputs.PROTO_PATH }} /usr/bin/protoc
+          run: sudo ln -s ${{ steps.make_env.outputs.PROTO_PATH }} /usr/bin/protoc
         
         - name: ls
           run: ls -al /usr/bin/protoc
