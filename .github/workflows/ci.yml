@@ -21,98 +21,106 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+        - name: Install Protoc
+          uses: arduino/setup-protoc@v1
           with:
-            repository: seongjihye1994/WebAppPrac
-            ref: ${{ env.LINUX_BUILD_BRANCH }}
+            version: ${{ env.PROTOC_VERSION }}
+          
+        - name: Create Symbolic
+          run: sudo ln -s /bin/protoc /usr/bin/protoc
+          
+#         - name: Checkout code
+#           uses: actions/checkout@v2
+#           with:
+#             repository: seongjihye1994/WebAppPrac
+#             ref: ${{ env.LINUX_BUILD_BRANCH }}
             
-        - name: echo
-          run: echo ${{ github.ref_name }}
+#         - name: echo
+#           run: echo ${{ github.ref_name }}
 
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
-        - uses: actions/cache@v2
-          with:
-            path: ~/.nuget/packages
-            # Look to see if there is a cache hit for the corresponding requirements file
-            key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-nuget
+#         - name: Setup .NET
+#           uses: actions/setup-dotnet@v1
+#           with:
+#             dotnet-version: ${{ env.DOTNET_VERSION }}
+#         - uses: actions/cache@v2
+#           with:
+#             path: ~/.nuget/packages
+#             # Look to see if there is a cache hit for the corresponding requirements file
+#             key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+#             restore-keys: |
+#               ${{ runner.os }}-nuget
 
-        - name: Restore dependencies
-          run: dotnet restore
+#         - name: Restore dependencies
+#           run: dotnet restore
 
-        - name: Build
-          run: dotnet build --configuration Release
+#         - name: Build
+#           run: dotnet build --configuration Release
           
-        - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
-            role-session-name: GithubActions
-            aws-region: ${{ env.AWS_REGION }}
+#         - name: Configure AWS Credentials
+#           uses: aws-actions/configure-aws-credentials@v1
+#           with:
+#             role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
+#             role-session-name: GithubActions
+#             aws-region: ${{ env.AWS_REGION }}
 
-        - name: Deploy 
-          run: |
-            aws s3 cp \
-              --recursive \
-              /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet/linux
+#         - name: Deploy 
+#           run: |
+#             aws s3 cp \
+#               --recursive \
+#               /home/runner/work/WebAppPrac/WebAppPrac/WebAppPrac/bin/Release/net6.0/ s3://vms-s3-devops/dotnet/linux
        
-  window_build:
+#   window_build:
   
-      runs-on: windows-latest
+#       runs-on: windows-latest
 
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-          with:
-            repository: seongjihye1994/WebAppPrac
-            ref: ${{ env.WINDOW_BUILD_BRANCH }}
+#       steps:
+#         - name: Checkout code
+#           uses: actions/checkout@v2
+#           with:
+#             repository: seongjihye1994/WebAppPrac
+#             ref: ${{ env.WINDOW_BUILD_BRANCH }}
 
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: ${{ env.DOTNET_VERSION }}
-        - uses: actions/cache@v2
-          with:
-            path: ~/.nuget/packages
-            # Look to see if there is a cache hit for the corresponding requirements file
-            key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-nuget
+#         - name: Setup .NET
+#           uses: actions/setup-dotnet@v1
+#           with:
+#             dotnet-version: ${{ env.DOTNET_VERSION }}
+#         - uses: actions/cache@v2
+#           with:
+#             path: ~/.nuget/packages
+#             # Look to see if there is a cache hit for the corresponding requirements file
+#             key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+#             restore-keys: |
+#               ${{ runner.os }}-nuget
 
-        - name: Restore dependencies
-          run: dotnet restore
+#         - name: Restore dependencies
+#           run: dotnet restore
 
-        - name: Build
-          run: dotnet build --configuration Release
+#         - name: Build
+#           run: dotnet build --configuration Release
           
-        - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
-            role-session-name: GithubActions
-            aws-region: ${{ env.AWS_REGION }}
+#         - name: Configure AWS Credentials
+#           uses: aws-actions/configure-aws-credentials@v1
+#           with:
+#             role-to-assume: arn:aws:iam::165291449861:role/github-action-s3
+#             role-session-name: GithubActions
+#             aws-region: ${{ env.AWS_REGION }}
           
-        - name: Deploy 
-          run: 
-            aws s3 cp 
-              --recursive 
-              D:\a\WebAppPrac\WebAppPrac\WebAppPrac\bin\Release\net6.0\ s3://vms-s3-devops/dotnet/window
+#         - name: Deploy 
+#           run: 
+#             aws s3 cp 
+#               --recursive 
+#               D:\a\WebAppPrac\WebAppPrac\WebAppPrac\bin\Release\net6.0\ s3://vms-s3-devops/dotnet/window
 
-  trigger:  
-    needs: linux_build
+#   trigger:  
+#     needs: linux_build
     
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
     
-    steps:
-      - name: Send Trigger
-        run: |
-          curl -X POST https://api.github.com/repos/seongjihye1994/vue-githubactions/dispatches \
-          -H 'Accept: application/vnd.github.v3+json' \
-          -u ${{ secrets.PAT }} \
-          -d '{ "event_type": "demo_event", "client_payload": { "branch": "dev" }}'
+#     steps:
+#       - name: Send Trigger
+#         run: |
+#           curl -X POST https://api.github.com/repos/seongjihye1994/vue-githubactions/dispatches \
+#           -H 'Accept: application/vnd.github.v3+json' \
+#           -u ${{ secrets.PAT }} \
+#           -d '{ "event_type": "demo_event", "client_payload": { "branch": "dev" }}'
 
