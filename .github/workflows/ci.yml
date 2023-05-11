@@ -11,6 +11,8 @@ env:
   WINDOW_BUILD_BRANCH: dev
   NODE_BUILD_BRANCH: dev
   
+  PROTOC_VERSION: 3.x
+  
 permissions:
       id-token: write
       contents: read    # This is required for actions/checkout
@@ -25,6 +27,8 @@ jobs:
           uses: arduino/setup-protoc@v1
           with:
             version: ${{ env.PROTOC_VERSION }}
+        - name: ls
+          run: ls -al /bin | grep protoc
           
         - name: Create Symbolic
           run: sudo ln -s /bin/protoc /usr/bin/protoc
