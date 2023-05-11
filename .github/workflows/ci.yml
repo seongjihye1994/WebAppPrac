@@ -27,11 +27,17 @@ jobs:
           uses: arduino/setup-protoc@v1
           with:
             version: ${{ env.PROTOC_VERSION }}
-        - name: ls
-          run: ls -al /usr/bin/protoc
+
+          
+        - name: make env
+          run: echo "PROTO_PATH=$(which protoc)" >> $GITHUB_OUTPUT
           
         - name: Create Symbolic
-          run: sudo ln -s /bin/protoc /usr/bin/protoc
+          run: sudo ln -s ${{ steps.pnpm-cache.outputs.PROTO_PATH }} /usr/bin/protoc
+        
+        - name: ls
+          run: ls -al /usr/bin/protoc
+
           
 #         - name: Checkout code
 #           uses: actions/checkout@v2
