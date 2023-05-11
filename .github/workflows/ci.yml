@@ -28,7 +28,7 @@ jobs:
           with:
             version: ${{ env.PROTOC_VERSION }}
         - name: ls
-          run: which protoc
+          run: ls -al /usr/bin/protoc
           
         - name: Create Symbolic
           run: sudo ln -s /bin/protoc /usr/bin/protoc
